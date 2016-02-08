@@ -17,16 +17,37 @@
 # Note that if ``localrc`` is present it will be used in favor of this section.
 [[local|localrc]]
 HOST_IP=192.168.122.11
-FLAT_INTERFACE=eth0
-FIXED_RANGE=10.4.128.0/20
-FIXED_NETWORK_SIZE=4096
-FLOATING_RANGE=192.168.122.128/25
+SERVICE_HOST=192.168.122.11
+MYSQL_HOST=$SERVICE_HOST
+RABBIT_HOST=$SERVICE_HOST
+GLANCE_HOSTPORT=$SERVICE_HOST:9292
 MULTI_HOST=1
 LOGFILE=/opt/stack/logs/stack.sh.log
 ADMIN_PASSWORD=stack@devstack
 DATABASE_PASSWORD=stack@devstack
 RABBIT_PASSWORD=stack@devstack
 SERVICE_PASSWORD=stack@devstack
+
+# Do not use Nova-Network
+disable_service n-net
+
+# Enable Neutron
+ENABLED_SERVICES+=,q-svc,q-dhcp,q-meta,q-agt,q-l3
+
+## Neutron options
+Q_USE_SECGROUP=True
+FLOATING_RANGE="192.168.122.128/25"
+FIXED_RANGE="10.4.128.0/20"
+Q_FLOATING_ALLOCATION_POOL=start=192.168.122.250,end=192.168.122.254
+PUBLIC_NETWORK_GATEWAY="192.168.122.1"
+Q_L3_ENABLED=True
+PUBLIC_INTERFACE=eth0
+
+# Linuxbridge Settings
+Q_AGENT=linuxbridge
+LB_PHYSICAL_INTERFACE=eth0
+PUBLIC_PHYSICAL_NETWORK=default
+LB_INTERFACE_MAPPINGS=default:eth0
 
 # Minimal Contents
 # ----------------
