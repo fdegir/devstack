@@ -16,11 +16,11 @@
 # The ``localrc`` section replaces the old ``localrc`` configuration file.
 # Note that if ``localrc`` is present it will be used in favor of this section.
 [[local|localrc]]
-HOST_IP=192.168.122.12 # change this per compute node
-FLAT_INTERFACE=eth0
-FIXED_RANGE=10.4.128.0/20
-FIXED_NETWORK_SIZE=4096
-FLOATING_RANGE=192.168.122.128/25
+HOST_IP=192.168.122.12
+SERVICE_HOST=192.168.122.11
+MYSQL_HOST=$SERVICE_HOST
+RABBIT_HOST=$SERVICE_HOST
+GLANCE_HOSTPORT=$SERVICE_HOST:9292
 MULTI_HOST=1
 LOGFILE=/opt/stack/logs/stack.sh.log
 ADMIN_PASSWORD=stack@devstack
@@ -28,15 +28,17 @@ DATABASE_PASSWORD=stack@devstack
 RABBIT_PASSWORD=stack@devstack
 SERVICE_PASSWORD=stack@devstack
 DATABASE_TYPE=mysql
-SERVICE_HOST=192.168.122.11
-MYSQL_HOST=$SERVICE_HOST
-RABBIT_HOST=$SERVICE_HOST
-GLANCE_HOSTPORT=$SERVICE_HOST:9292
 ENABLED_SERVICES=n-cpu,n-net,n-api-meta,c-vol
 NOVA_VNC_ENABLED=True
 NOVNCPROXY_URL="http://$SERVICE_HOST:6080/vnc_auto.html"
 VNCSERVER_LISTEN=$HOST_IP
 VNCSERVER_PROXYCLIENT_ADDRESS=$VNCSERVER_LISTEN
+
+## Neutron options
+PUBLIC_INTERFACE=eth0
+ENABLED_SERVICES=n-cpu,rabbit,q-agt
+FLOATING_RANGE="192.168.122.0/24"
+FIXED_RANGE="10.4.128.0/20"
 
 # Minimal Contents
 # ----------------
